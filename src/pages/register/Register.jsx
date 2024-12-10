@@ -1,29 +1,40 @@
 import Lottie from "lottie-react";
-import registerLottieData from '../../assets/lottie/register.json';
+import registerLottieData from "../../assets/lottie/register.json";
+import { useContext } from "react";
+import authContext from "../../context/AuthContext";
 
 const Register = () => {
+  const { createUser } = useContext(authContext);
 
-    const handleRegister = e => {
-        e.preventDefault();
-        const form = e.target
-        const email = form.email.value
-        const password = form.password.value
-        
-        console.log(email, password);
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
 
-        if (password.length < 6) {
-            // setError("Password must contain at least 6 characters");
-            return;
-          }
-          if (!/[a-z]/.test(password)) {
-            // setError("Password must have at least one Lowercase letter ");
-            return;
-          }
-          if (!/[A-Z]/.test(password)) {
-            // setError("Password must have at least one Uppercase letter ");
-            return;
-          }
+    console.log({email, password});
+
+    createUser(email, password)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch(error => {
+      console.log(error, error.massage);
+    })
+
+    if (password.length < 6) {
+      // setError("Password must contain at least 6 characters");
+      return;
     }
+    if (!/[a-z]/.test(password)) {
+      // setError("Password must have at least one Lowercase letter ");
+      return;
+    }
+    if (!/[A-Z]/.test(password)) {
+      // setError("Password must have at least one Uppercase letter ");
+      return;
+    }
+  };
   return (
     <div className="w-11/12 md:w-10/12 mx-auto">
       <div className="hero bg-base-200 min-h-screen">
@@ -32,7 +43,9 @@ const Register = () => {
             <Lottie animationData={registerLottieData}></Lottie>
           </div>
           <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <h1 className="text-5xl font-bold flex justify-center mt-4">Register now!</h1>
+            <h1 className="text-5xl font-bold flex justify-center mt-4">
+              Register now!
+            </h1>
             <form className="card-body" onSubmit={handleRegister}>
               <div className="form-control">
                 <label className="label">
