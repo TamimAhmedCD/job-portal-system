@@ -1,20 +1,33 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import authContext from "../../context/AuthContext";
 
 const Navbar = () => {
-  const { user } = useContext(authContext);
+  const { user, signOutUser } = useContext(authContext);
+
+  const handleSignOut = () => {
+    signOutUser()
+      .the(() => {
+        console.log("Successful Sign Out");
+      })
+      .catch(() => {
+        console.log("Failed to Sign Out");
+      });
+  };
 
   const links = (
-    <>
+    <div className="flex gap-2 flex-col lg:flex-row">
+      {" "}
       <li>
-        <a>Item 1</a>
+        <NavLink to="/"> Home</NavLink>
       </li>
-
       <li>
-        <a>Item 3</a>
+        <NavLink to="/"> Home</NavLink>
       </li>
-    </>
+      <li>
+        <NavLink to="/"> Home</NavLink>
+      </li>
+    </div>
   );
   return (
     <div className="navbar w-11/12 md:w-10/12 mx-auto p-0">
@@ -51,7 +64,7 @@ const Navbar = () => {
       <div className="navbar-end flex gap-2">
         {user ? (
           <>
-            <Link className="btn">
+            <Link onClick={handleSignOut} className="btn">
               Log Out
             </Link>
           </>

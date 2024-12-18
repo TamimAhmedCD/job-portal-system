@@ -2,6 +2,7 @@ import Lottie from "lottie-react";
 import registerLottieData from "../../assets/lottie/register.json";
 import { useContext } from "react";
 import authContext from "../../context/AuthContext";
+import SocialLogin from "../shared/SocialLogin";
 
 const Register = () => {
   const { createUser } = useContext(authContext);
@@ -12,15 +13,15 @@ const Register = () => {
     const email = form.email.value;
     const password = form.password.value;
 
-    console.log({email, password});
+    console.log({ email, password });
 
     createUser(email, password)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch(error => {
-      console.log(error, error.massage);
-    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error, error.massage);
+      });
 
     if (password.length < 6) {
       // setError("Password must contain at least 6 characters");
@@ -35,7 +36,7 @@ const Register = () => {
       return;
     }
   };
-  
+
   return (
     <div className="w-11/12 md:w-10/12 mx-auto">
       <div className="hero bg-base-200 min-h-screen">
@@ -81,6 +82,10 @@ const Register = () => {
                 <button className="btn btn-primary">Register</button>
               </div>
             </form>
+            <div className="divider">OR</div>
+            <div className="flex justify-center mb-4">
+              <SocialLogin />
+            </div>
           </div>
         </div>
       </div>

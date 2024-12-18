@@ -2,26 +2,31 @@ import Lottie from "lottie-react";
 import registerLottieData from "../../assets/lottie/register.json";
 import { useContext } from "react";
 import authContext from "../../context/AuthContext";
+import SocialLogin from "../shared/SocialLogin";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
+  const { singInUse } = useContext(authContext);
+  const location = useLocation()
+  const navigate = useNavigate()
+  const from = location.state || '/'
 
-    const {singInUse} = useContext(authContext)
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
 
-    const handleSignIn = (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const email = form.email.value;
-        const password = form.password.value;
-    
-        console.log({email, password});
-        singInUse(email, password)
-        .then(res => {
-            console.log(res.user);
-        }).catch(error => {
-            console.log(error.massage);
-        })
-
-      };
+    console.log({ email, password });
+    singInUse(email, password)
+      .then((res) => {
+        console.log(res.user);
+        navigate(from)
+      })
+      .catch((error) => {
+        console.log(error.massage);
+      });
+  };
 
   return (
     <div className="w-11/12 md:w-10/12 mx-auto">
@@ -68,6 +73,10 @@ const SignIn = () => {
                 <button className="btn btn-primary">Login</button>
               </div>
             </form>
+            <div className="divider">OR</div>
+            <div className="flex justify-center mb-4">
+              <SocialLogin />
+            </div>
           </div>
         </div>
       </div>
